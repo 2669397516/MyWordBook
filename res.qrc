@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/上一个.svg</file>
+        <file>images/下一个.svg</file>
+        <file>images/记单词.svg</file>
+        <file>images/播放.svg</file>
+        <file>images/暂停.svg</file>
+        <file>images/关闭.svg</file>
+    </qresource>
+</RCC>
