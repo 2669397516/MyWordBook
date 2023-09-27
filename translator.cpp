@@ -21,15 +21,15 @@ void Translator::SetQstr(const QString &qstring){
 void Translator::SetIndex(const int& in){
     index = in;
 }
-QString Translator::GetUrl(){
+QString Translator::GetUrl(string &appid, string &secret_key){
     //制作签名
     myurl = "http://fanyi-api.baidu.com/api/trans/vip/translate?";
-    appid = "20230925001829083";  //你的appid
+//    appid = "20230925001829083";  //你的appid
     from = "auto";
     to = lan[index];  //选择目标语种
     time_t myt = time(NULL);  //获取时间戳
     salt = to_string(myt);
-    secret_key = "nDiRo9JNqRAG2KYvl81M";  //你的密钥
+//    secret_key = "nDiRo9JNqRAG2KYvl81M";  //你的密钥
     sign = "";
     //签名拼接
     sign.append(appid);

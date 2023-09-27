@@ -28,7 +28,8 @@ FORMS += \
     wordlistwidget.ui \
     addword.ui \
     learnipa.ui \
-    showtranslators.ui
+    showtranslators.ui \
+    setappidsecretkey.ui
 
 HEADERS += \
     mainwindow.h \
@@ -39,7 +40,8 @@ HEADERS += \
     translator.h \
     md5.h \
     learnipa.h \
-    showtranslators.h
+    showtranslators.h \
+    setappidsecretkey.h
 
 SOURCES += \
     main.cpp \
@@ -52,6 +54,7 @@ SOURCES += \
     translator.cpp \
     md5.cpp \
     learnipa.cpp \
-    showtranslators.cpp
+    showtranslators.cpp \
+    setappidsecretkey.cpp
 
 include(QHotKey/qhotkey.pri)

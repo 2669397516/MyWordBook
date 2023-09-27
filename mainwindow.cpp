@@ -118,29 +118,37 @@ void MainWindow::parsingJson(QNetworkReply *reply)
     }
 }
 
+void MainWindow::dealMessage(string appid, string secret_key)
+{
+    m_appid = appid;
+    m_secret_key = secret_key;
+}
+
 void MainWindow::init()
 {
     m_file.setFileName(m_fileName);
 
     m_translator = new Translator;
 
+    m_setAppidSecretKey = new setAppidSecretkey;
+    m_setAppidSecretKey->show();
+    connect(m_setAppidSecretKey, &setAppidSecretkey::sendMessage, this, &MainWindow::dealMessage);
+
     m_showTranslators = new ShowTranslators();
 
     m_hotKey = new QHotkey(QKeySequence(Qt::CTRL + Qt::Key_F9), true, this);
     connect(m_hotKey, &QHotkey::activated, this, &MainWindow::handleHotkeyActivated);
 
-    m_queryWordWidget = new QueryWordsWidget;
+    m_queryWordWidget = new QueryWordsWidget(m_appid, m_secret_key);
     m_addWord = new AddWord(m_fileName);
     m_reciteWordsWidget = new ReciteWordsWidget;
     m_wordListWidget = new WordListWidget;
-//    m_learnPhoneticAlphabet = new LearnPhoneticAlphabet;
     m_learnIPA = new LearnIPA;
 
     ui->stackedWidget->addWidget(m_queryWordWidget);
     ui->stackedWidget->addWidget(m_addWord);
     ui->stackedWidget->addWidget(m_reciteWordsWidget);
     ui->stackedWidget->addWidget(m_wordListWidget);
-//    ui->stackedWidget->addWidget(m_learnPhoneticAlphabet);
     ui->stackedWidget->addWidget(m_learnIPA);
 
     ui->stackedWidget->setCurrentWidget(m_queryWordWidget);
@@ -259,7 +267,7 @@ void MainWindow::handleHotkeyActivated()
         index = 1;  // 输入的是英文，转换成中文
     m_translator->SetQstr(str);     //传入需要翻译
     m_translator->SetIndex(index);  //传入下标
-    QString url = m_translator->GetUrl();     //获取url
+    QString url = m_translator->GetUrl(m_appid, m_secret_key);     //获取url
     //1. 创建一个请求
     QNetworkRequest request;
     request.setUrl(QUrl(url));

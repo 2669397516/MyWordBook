@@ -36,12 +36,9 @@ private:
 public:
     Translator();     //默认构造函数
     Translator(const QString &);     //构造函数
-    QString GetUrl();   //生产url的方法
+    QString GetUrl(string &appid, string &secret_key);   //生产url的方法
     void SetQstr(const QString &);   //设置需要翻译内容的函数
     void SetIndex(const int&);      //设置翻译目标语种的函数
-
-
-
 };
 
 #endif // TANSLATOR_H

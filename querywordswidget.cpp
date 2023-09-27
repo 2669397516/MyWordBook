@@ -10,9 +10,11 @@
 #include <QTextStream>
 #include <QMessageBox>
 
-QueryWordsWidget::QueryWordsWidget(QWidget *parent) :
+QueryWordsWidget::QueryWordsWidget(string &appid, string &secret_key, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QueryWordsWidget)
+    ui(new Ui::QueryWordsWidget),
+    m_appid(appid),
+    m_secret_key(secret_key)
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("查单词界面"));
@@ -191,7 +193,7 @@ void QueryWordsWidget::on_pushButton_queryWord_baidu_clicked()
         index = 1;  // 输入的是英文，转换成中文
     m_translator->SetQstr(str);     //传入需要翻译
     m_translator->SetIndex(index);  //传入下标
-    QString url = m_translator->GetUrl();     //获取url
+    QString url = m_translator->GetUrl(m_appid, m_secret_key);     //获取url
     //1. 创建一个请求
     QNetworkRequest request;
     request.setUrl(QUrl(url));

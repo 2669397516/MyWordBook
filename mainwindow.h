@@ -15,6 +15,7 @@
 //#include "learnphoneticalphabet.h"
 #include "showtranslators.h"
 #include "translator.h"
+#include "setappidsecretkey.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,7 @@ public slots:
     void dealAddWord(QPair<QString, QString> newWord);
     void dealDelWord(QPair<QString, QString> delWord);
     void parsingJson(QNetworkReply * reply);   //get请求完成后触发槽函数
+    void dealMessage(string appid, string secret_key);
 
 signals:
     void sendMap(QMap<QString, QString> wordMap);
@@ -59,7 +61,6 @@ private:
     WordListWidget *m_wordListWidget;
     QueryWordsWidget *m_queryWordWidget;
     ReciteWordsWidget *m_reciteWordsWidget;
-//    LearnPhoneticAlphabet *m_learnPhoneticAlphabet;
 
     QFile m_file;
     QMap<QString, QString> m_wordMap;
@@ -69,6 +70,10 @@ private:
     Translator *m_translator;
 
     ShowTranslators *m_showTranslators;
+    setAppidSecretkey *m_setAppidSecretKey;
+
+    string m_appid = "20230925001829083";
+    string m_secret_key = "nDiRo9JNqRAG2KYvl81M";
 };
 
 #endif // MAINWINDOW_H

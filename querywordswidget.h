@@ -16,7 +16,7 @@ class QueryWordsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit QueryWordsWidget(QWidget *parent = nullptr);
+    explicit QueryWordsWidget(string &appid, string &secret_key, QWidget *parent = nullptr);
     ~QueryWordsWidget();
     QString unicodeToUtf8(QString);  //unicode转utf-8,用于处理返回数据
     QString myregex(const QString &str);   //正则处理函数，用于解析返回数据，这里也可以使用json解析数据
@@ -44,6 +44,8 @@ private:
     QMap<QString, QString> m_wordMap;
     Translator *m_translator;
 
+    string m_appid;
+    string m_secret_key;
 };
 
 #endif // QUERYWORDSWIDGET_H
