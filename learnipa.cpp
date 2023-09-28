@@ -165,6 +165,25 @@ LearnIPA::~LearnIPA()
     delete ui;
 }
 
+void LearnIPA::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Up)
+    {
+        if(m_volume == 100)
+            return;
+        m_volume++;
+        ui->setVolume->setValue(m_volume);
+    }
+
+    if(event->key() == Qt::Key_Down)
+    {
+        if(m_volume == 0)
+            return;
+        m_volume--;
+        ui->setVolume->setValue(m_volume);
+    }
+}
+
 void LearnIPA::playMusic(QPoint flag, const QString musicPath)
 {
     if (m_flag == flag)

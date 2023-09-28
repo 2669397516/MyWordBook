@@ -3,6 +3,7 @@
 
 #include <QUrl>
 #include <QWidget>
+#include <QKeyEvent>
 #include <QMediaPlayer>
 
 namespace Ui {
@@ -17,6 +18,9 @@ public:
     explicit LearnIPA(QWidget *parent = nullptr);
     ~LearnIPA();
 
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
+
 private:
     void playMusic(QPoint flag, const QString musicPath);
 
@@ -27,6 +31,7 @@ private:
     Ui::LearnIPA *ui;
     QMediaPlayer *m_mediaPlayer;
     QPoint m_flag;
+    int m_volume = 0;
 };
 
 #endif // LEARNIPA_H
