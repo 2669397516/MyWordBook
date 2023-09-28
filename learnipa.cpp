@@ -3,7 +3,6 @@
 
 #include <QDebug>
 
-
 LearnIPA::LearnIPA(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LearnIPA)
@@ -12,21 +11,11 @@ LearnIPA::LearnIPA(QWidget *parent) :
     this->setWindowTitle(tr("学音标"));
 
     m_mediaPlayer = new QMediaPlayer;
-    m_mediaPlaylist = new QMediaPlaylist;
 
-    m_mediaContentlist.push_back(QUrl::fromLocalFile(":/mp3/^-sound.mp3"));
-    m_mediaContentlist.push_back(QUrl::fromLocalFile(":/mp3/a-sound2.mp3"));
-
-    m_mediaPlaylist->addMedia(m_mediaContentlist);
-
-    m_mediaPlayer->setPlaylist(m_mediaPlaylist);
-
-    m_mediaPlaylist->setCurrentIndex(1);
-
-    m_mediaPlayer->play();  // 播放指定的音频文件
-
-//    ui->tableWidget->setRowCount(14);
-//    ui->tableWidget->setColumnCount(8);
+    // 设置水平滑动栏
+    ui->setVolume->setMaximum(100);
+    ui->setVolume->setValue(0);
+    m_mediaPlayer->setVolume(ui->setVolume->value());
 
     ui->tableWidget->verticalHeader()->setVisible(false);
     ui->tableWidget->horizontalHeader()->setVisible(false);
@@ -48,57 +37,6 @@ LearnIPA::LearnIPA(QWidget *parent) :
     ui->tableWidget->setSpan(7, 1, 2, 1);
     ui->tableWidget->setSpan(9, 1, 2, 1);
 
-//    QTableWidgetItem *yuanyin = new QTableWidgetItem("元音");
-//    ui->tableWidget->setItem(0, 0, yuanyin);
-//    QTableWidgetItem *fuyin = new QTableWidgetItem("辅音");
-
-//    ui->tableWidget->setItem(5, 0, fuyin);
-//    QTableWidgetItem *danyuanyin = new QTableWidgetItem("单元音");
-//    ui->tableWidget->setItem(0, 1, danyuanyin);
-//    QTableWidgetItem *shuangyuanyin = new QTableWidgetItem("双元音");
-//    ui->tableWidget->setItem(3, 1, shuangyuanyin);
-//    QTableWidgetItem *baopoyin = new QTableWidgetItem("爆破音");
-//    ui->tableWidget->setItem(5, 1, baopoyin);
-//    QTableWidgetItem *mocayin = new QTableWidgetItem("摩擦音");
-//    ui->tableWidget->setItem(7, 1, mocayin);
-//    QTableWidgetItem *pocayin = new QTableWidgetItem("破擦音");
-//    ui->tableWidget->setItem(9, 1, pocayin);
-//    QTableWidgetItem *sheyin = new QTableWidgetItem("舌音");
-//    ui->tableWidget->setItem(11, 1, sheyin);
-//    QTableWidgetItem *sheceyin = new QTableWidgetItem("舌侧音");
-//    ui->tableWidget->setItem(12, 1, sheceyin);
-//    QTableWidgetItem *banyuanyin = new QTableWidgetItem("半元音");
-//    ui->tableWidget->setItem(13, 1, banyuanyin);
-
-//    QTableWidgetItem *qianyuanyin = new QTableWidgetItem("前元音");
-//    ui->tableWidget->setItem(0, 2, qianyuanyin);
-//    QTableWidgetItem *zhongyuanyin = new QTableWidgetItem("中元音");
-//    ui->tableWidget->setItem(1, 2, zhongyuanyin);
-//    QTableWidgetItem *houyuanyin = new QTableWidgetItem("后元音");
-//    ui->tableWidget->setItem(2, 2, houyuanyin);
-//    QTableWidgetItem *kaiheshuangyuanyin = new QTableWidgetItem("开合双元音");
-//    ui->tableWidget->setItem(3, 2, kaiheshuangyuanyin);
-//    QTableWidgetItem *jizhongshuangyuanyin = new QTableWidgetItem("集中双元音");
-//    ui->tableWidget->setItem(4, 2, jizhongshuangyuanyin);
-//    QTableWidgetItem *qingfuyin1 = new QTableWidgetItem("清辅音");
-//    ui->tableWidget->setItem(5, 2, qingfuyin1);
-//    QTableWidgetItem *zhuofuyin1 = new QTableWidgetItem("浊辅音");
-//    ui->tableWidget->setItem(6, 2, zhuofuyin1);
-//    QTableWidgetItem *qingfuyin2 = new QTableWidgetItem("清辅音");
-//    ui->tableWidget->setItem(7, 2, qingfuyin2);
-//    QTableWidgetItem *zhuofuyin2 = new QTableWidgetItem("浊辅音");
-//    ui->tableWidget->setItem(8, 2, zhuofuyin2);
-//    QTableWidgetItem *qingfuyin3 = new QTableWidgetItem("清辅音");
-//    ui->tableWidget->setItem(9, 2, qingfuyin3);
-//    QTableWidgetItem *zhuofuyin3 = new QTableWidgetItem("浊辅音");
-//    ui->tableWidget->setItem(10, 2, zhuofuyin3);
-//    QTableWidgetItem *zhuofuyin4 = new QTableWidgetItem("(浊辅音)");
-//    ui->tableWidget->setItem(11, 2, zhuofuyin4);
-//    QTableWidgetItem *zhuofuyin5 = new QTableWidgetItem("(浊辅音)");
-//    ui->tableWidget->setItem(12, 2, zhuofuyin5);
-//    QTableWidgetItem *zhuofuyin6 = new QTableWidgetItem("(浊辅音)");
-//    ui->tableWidget->setItem(13, 2, zhuofuyin6);
-
     // 设置所有单元格不可编辑
     for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
         for (int j = 0; j < ui->tableWidget->columnCount(); ++j) {
@@ -109,124 +47,142 @@ LearnIPA::LearnIPA(QWidget *parent) :
         }
     }
 
-//    connect(ui->tableWidget, &QTableWidget::cellEntered, [&](int row, int column){
-//        this->setCursor(Qt::PointingHandCursor);
-//    });
-
     connect(ui->tableWidget, &QTableWidget::cellClicked, [&](int row, int column){
-        if(row == 0 && column == 3) // /iː/
-            qDebug() << "/iː/";
-        if(row == 0 && column == 4)
-            qDebug() << "/I/";
-        if(row == 0 && column == 5)
-            qDebug() << "/e/";
-        if(row == 0 && column == 6)
-            qDebug() << "/æ/";
+        if (row == 0 && column == 3) // /i:/
+            playMusic(QPoint(0, 3), "qrc:/mp3/i-sound2.mp3");
+        if(row == 0 && column == 4) // /I/
+            playMusic(QPoint(0, 4), "qrc:/mp3/i-sound.mp3");
+        if(row == 0 && column == 5) // /e/
+            playMusic(QPoint(0, 4), "qrc:/mp3/e-sound.mp3");
+        if(row == 0 && column == 6) // /æ/
+            playMusic(QPoint(0 , 6), "qrc:/mp3/an-sound.mp3");
 
-        if(row == 1 && column == 4)
-            qDebug() << "/ɜː/";
-        if(row == 1 && column == 5)
-            qDebug() << "/ə/";
-        if(row == 1 && column == 6)
-            qDebug() << "/ʌ/";
+        if(row == 1 && column == 4) // /ɜː/
+            playMusic(QPoint(1, 4), "qrc:/mp3/er-sound.mp3");
+        if(row == 1 && column == 5) // /ə/
+            playMusic(QPoint(1, 5), "qrc:/mp3/e^-sound.mp3");
+        if(row == 1 && column == 6) // /ʌ/
+            playMusic(QPoint(1, 6), "qrc:/mp3/^-sound.mp3");
 
-        if(row == 2 && column == 3)
-            qDebug() << "/uː/";
-        if(row == 2 && column == 4)
-            qDebug() << "/ʊ/";
-        if(row == 2 && column == 5)
-            qDebug() << "/ɔː/";
-        if(row == 2 && column == 6)
-            qDebug() << "/ɒ/";
-        if(row == 2 && column == 7)
-            qDebug() << "/ɑː/";
+        if(row == 2 && column == 3) // /uː/
+            playMusic(QPoint(2, 3), "qrc:/mp3/u-sound2.mp3");
+        if(row == 2 && column == 4) // /ʊ/
+            playMusic(QPoint(2, 4), "qrc:/mp3/u-sound.mp3");
+        if(row == 2 && column == 5) // /ɔː/
+            playMusic(QPoint(2, 5), "qrc:/mp3/o-sound2.mp3");
+        if(row == 2 && column == 6) // /ɒ/
+            playMusic(QPoint(2, 6), "qrc:/mp3/o-sound.mp3");
+        if(row == 2 && column == 7) // /ɑː/
+            playMusic(QPoint(2, 7), "qrc:/mp3/a-sound2.mp3");
 
-        if(row == 3 && column == 3)
-            qDebug() << "/eɪ/";
-        if(row == 3 && column == 4)
-            qDebug() << "/aɪ/";
-        if(row == 3 && column == 5)
-            qDebug() << "/ɔɪ/";
-        if(row == 3 && column == 6)
-            qDebug() << "/aʊ/";
-        if(row == 3 && column == 7)
-            qDebug() << "/əʊ/";
+        if(row == 3 && column == 3) // /eɪ/
+            playMusic(QPoint(3, 3), "qrc:/mp3/ei.mp3");
+        if(row == 3 && column == 4) // /aɪ/
+            playMusic(QPoint(3, 4), "qrc:/mp3/ai.mp3");
+        if(row == 3 && column == 5) // /ɔɪ/
+            playMusic(QPoint(3, 5), "qrc:/mp3/oi.mp3");
+        if(row == 3 && column == 6) // /aʊ/
+            playMusic(QPoint(3, 6), "qrc:/mp3/ao.mp3");
+        if(row == 3 && column == 7) // /əʊ/
+            playMusic(QPoint(3, 7), "qrc:/mp3/eu.mp3");
 
-        if(row == 4 && column == 3)
-            qDebug() << "/ɪə/";
-        if(row == 4 && column == 4)
-            qDebug() << "/eə/";
-        if(row == 4 && column == 5)
-            qDebug() << "/ʊə/";
+        if(row == 4 && column == 3) // /ɪə/
+            playMusic(QPoint(4, 3), "qrc:/mp3/ir.mp3");
+        if(row == 4 && column == 4) // /eə/
+            playMusic(QPoint(4, 4), "qrc:/mp3/er-sound.mp3");
+        if(row == 4 && column == 5) // /ʊə/
+            playMusic(QPoint(4, 5), "qrc:/mp3/uer.mp3");
 
-        if(row == 5 && column == 3)
-            qDebug() << "/p/";
-        if(row == 5 && column == 4)
-            qDebug() << "/t/";
-        if(row == 5 && column == 5)
-            qDebug() << "/k/";
+        if(row == 5 && column == 3) // /p/
+            playMusic(QPoint(5, 3), "qrc:/mp3/p.mp3");
+        if(row == 5 && column == 4) // /t/
+            playMusic(QPoint(5, 4), "qrc:/mp3/t.mp3");
+        if(row == 5 && column == 5) // /k/
+            playMusic(QPoint(5, 5), "qrc:/mp3/k.mp3");
 
-        if(row == 6 && column == 3)
-            qDebug() << "/b/";
-        if(row == 6 && column == 4)
-            qDebug() << "/d/";
-        if(row == 6 && column == 5)
-            qDebug() << "/g/";
+        if(row == 6 && column == 3) // /b/
+            playMusic(QPoint(6, 3), "qrc:/mp3/b.mp3");
+        if(row == 6 && column == 4) // /d/
+            playMusic(QPoint(6, 4), "qrc:/mp3/d.mp3");
+        if(row == 6 && column == 5) // /g/
+            playMusic(QPoint(6, 5), "qrc:/mp3/g.mp3");
 
-        if(row == 7 && column == 3)
-            qDebug() << "/f/";
-        if(row == 7 && column == 4)
-            qDebug() << "/s/";
-        if(row == 7 && column == 5)
-            qDebug() << "/ʃ/";
-        if(row == 7 && column == 6)
-            qDebug() << "/θ/";
-        if(row == 7 && column == 7)
-            qDebug() << "/h/";
+        if(row == 7 && column == 3) // /f/
+            playMusic(QPoint(7, 3), "qrc:/mp3/f.mp3");
+        if(row == 7 && column == 4) // /s/
+            playMusic(QPoint(7, 4), "qrc:/mp3/s.mp3");
+        if(row == 7 && column == 5) // /ʃ/
+            playMusic(QPoint(7, 5), "qrc:/mp3/ss.mp3");
+        if(row == 7 && column == 6) // /θ/
+            playMusic(QPoint(7, 6), "qrc:/mp3/si.mp3");
+        if(row == 7 && column == 7) // /h/
+            playMusic(QPoint(7, 7), "qrc:/mp3/h.mp3");
 
-        if(row == 8 && column == 3)
-            qDebug() << "/v/";
-        if(row == 8 && column == 4)
-            qDebug() << "/z/";
-        if(row == 8 && column == 5)
-            qDebug() << "/ʒ/";
-        if(row == 8 && column == 6)
-            qDebug() << "/ð/";
-        if(row == 8 && column == 7)
-            qDebug() << "/r/";
+        if(row == 8 && column == 3) // /v/
+            playMusic(QPoint(8, 3), "qrc:/mp3/v.mp3");
+        if(row == 8 && column == 4) // /z/
+            playMusic(QPoint(8, 4), "qrc:/mp3/z.mp3");
+        if(row == 8 && column == 5) // /ʒ/
+            playMusic(QPoint(8, 5), "qrc:/mp3/n3.mp3");
+        if(row == 8 && column == 6) // /ð/
+            playMusic(QPoint(8, 6), "qrc:/mp3/qq.mp3");
+        if(row == 8 && column == 7) // /r/
+            playMusic(QPoint(8, 7), "qrc:/mp3/r.mp3");
 
-        if(row == 9 && column == 3)
-            qDebug() << "/tʃ/";
-        if(row == 9 && column == 4)
-            qDebug() << "/tr/";
-        if(row == 9 && column == 5)
-            qDebug() << "/ts/";
+        if(row == 9 && column == 3) // /tʃ/
+            playMusic(QPoint(9, 3), "qrc:/mp3/tss.mp3");
+        if(row == 9 && column == 4) // /tr/
+            playMusic(QPoint(9, 4), "qrc:/mp3/tr.mp3");
+        if(row == 9 && column == 5) // /ts/
+            playMusic(QPoint(9, 5), "qrc:/mp3/ts.mp3");
 
-        if(row == 10 && column == 3)
-            qDebug() << "/dʒ/";
-        if(row == 10 && column == 4)
-            qDebug() << "/dr/";
-        if(row == 10 && column == 5)
-            qDebug() << "/dz/";
+        if(row == 10 && column == 3) // /dʒ/
+            playMusic(QPoint(10, 3), "qrc:/mp3/d3.mp3");
+        if(row == 10 && column == 4) // /dr/
+            playMusic(QPoint(10, 4), "qrc:/mp3/dr.mp3");
+        if(row == 10 && column == 5) // /dz/
+            playMusic(QPoint(10, 5), "qrc:/mp3/dz.mp3");
 
-        if(row == 11 && column == 3)
-            qDebug() << "/m/";
-        if(row == 11 && column == 4)
-            qDebug() << "/n/";
-        if(row == 11 && column == 5)
-            qDebug() << "/ŋ/";
+        if(row == 11 && column == 3) // /m/
+            playMusic(QPoint(11, 3), "qrc:/mp3/m.mp3");
+        if(row == 11 && column == 4) // /n/
+            playMusic(QPoint(11, 4), "qrc:/mp3/n.mp3");
+        if(row == 11 && column == 5) // /ŋ/
+            playMusic(QPoint(11, 5), "qrc:/mp3/ng.mp3");
 
-        if(row == 12 && column == 3)
-            qDebug() << "/l/";
+        if(row == 12 && column == 3) // /l/
+            playMusic(QPoint(12, 3), "qrc:/mp3/l.mp3");
 
-        if(row == 13 && column == 3)
-            qDebug() << "/j/";
-        if(row == 13 && column == 4)
-            qDebug() << "/w/";
+        if(row == 13 && column == 3) // /j/
+            playMusic(QPoint(13, 3), "qrc:/mp3/j.mp3");
+        if(row == 13 && column == 4) // /w/
+            playMusic(QPoint(13, 4), "qrc:/mp3/w.mp3");
     });
 }
 
 LearnIPA::~LearnIPA()
 {
     delete ui;
+}
+
+void LearnIPA::playMusic(QPoint flag, const QString musicPath)
+{
+    if (m_flag == flag)
+    {
+        m_mediaPlayer->setPosition(0);
+        m_mediaPlayer->play();
+    }
+    else
+    {
+        m_mediaPlayer->setMedia(QUrl(musicPath));  // 使用相对路径的
+        m_mediaPlayer->play();  // 播放指定的音频文件
+        m_flag = flag;
+    }
+
+    return;
+}
+
+void LearnIPA::on_setVolume_sliderMoved(int position)
+{
+    m_mediaPlayer->setVolume(position);
 }

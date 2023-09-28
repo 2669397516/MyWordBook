@@ -1,9 +1,9 @@
 #ifndef LEARNIPA_H
 #define LEARNIPA_H
 
+#include <QUrl>
 #include <QWidget>
 #include <QMediaPlayer>
-#include <QMediaPlaylist>
 
 namespace Ui {
 class LearnIPA;
@@ -18,10 +18,15 @@ public:
     ~LearnIPA();
 
 private:
+    void playMusic(QPoint flag, const QString musicPath);
+
+private slots:
+    void on_setVolume_sliderMoved(int position);
+
+private:
     Ui::LearnIPA *ui;
     QMediaPlayer *m_mediaPlayer;
-    QMediaPlaylist *m_mediaPlaylist;
-    QList<QMediaContent> m_mediaContentlist;
+    QPoint m_flag;
 };
 
 #endif // LEARNIPA_H
