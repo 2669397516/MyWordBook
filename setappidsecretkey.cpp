@@ -9,6 +9,7 @@ setAppidSecretkey::setAppidSecretkey(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("设置ID和密钥"));
+    this->setWindowIcon(QIcon(":/MyWordBook.ico"));
     this->setWindowFlags(Qt::FramelessWindowHint);
     this->setWindowFlags(Qt::WindowStaysOnTopHint);
     this->setWindowModality(Qt::ApplicationModal);

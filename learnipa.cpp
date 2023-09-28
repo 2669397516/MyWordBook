@@ -3,12 +3,27 @@
 
 #include <QDebug>
 
+
 LearnIPA::LearnIPA(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LearnIPA)
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("学音标"));
+
+    m_mediaPlayer = new QMediaPlayer;
+    m_mediaPlaylist = new QMediaPlaylist;
+
+    m_mediaContentlist.push_back(QUrl::fromLocalFile(":/mp3/^-sound.mp3"));
+    m_mediaContentlist.push_back(QUrl::fromLocalFile(":/mp3/a-sound2.mp3"));
+
+    m_mediaPlaylist->addMedia(m_mediaContentlist);
+
+    m_mediaPlayer->setPlaylist(m_mediaPlaylist);
+
+    m_mediaPlaylist->setCurrentIndex(1);
+
+    m_mediaPlayer->play();  // 播放指定的音频文件
 
 //    ui->tableWidget->setRowCount(14);
 //    ui->tableWidget->setColumnCount(8);

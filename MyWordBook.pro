@@ -1,7 +1,8 @@
-QT       += core gui network
+QT       += core gui network multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = MyWordBook
+
 TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -58,3 +59,6 @@ SOURCES += \
     setappidsecretkey.cpp
 
 include(QHotKey/qhotkey.pri)
+
+RC_FILE += logo.rc
+

@@ -2,6 +2,8 @@
 #define LEARNIPA_H
 
 #include <QWidget>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 namespace Ui {
 class LearnIPA;
@@ -17,6 +19,9 @@ public:
 
 private:
     Ui::LearnIPA *ui;
+    QMediaPlayer *m_mediaPlayer;
+    QMediaPlaylist *m_mediaPlaylist;
+    QList<QMediaContent> m_mediaContentlist;
 };
 
 #endif // LEARNIPA_H

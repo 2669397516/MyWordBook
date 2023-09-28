@@ -6,5 +6,54 @@
         <file>images/播放.svg</file>
         <file>images/暂停.svg</file>
         <file>images/关闭.svg</file>
+        <file>mp3/^-sound.mp3</file>
+        <file>mp3/ai.mp3</file>
+        <file>mp3/an-sound.mp3</file>
+        <file>mp3/ao.mp3</file>
+        <file>mp3/a-sound2.mp3</file>
+        <file>mp3/b.mp3</file>
+        <file>mp3/d.mp3</file>
+        <file>mp3/d3.mp3</file>
+        <file>mp3/dr.mp3</file>
+        <file>mp3/dz.mp3</file>
+        <file>mp3/e^-sound.mp3</file>
+        <file>mp3/ei.mp3</file>
+        <file>mp3/er.mp3</file>
+        <file>mp3/er-sound.mp3</file>
+        <file>mp3/e-sound.mp3</file>
+        <file>mp3/eu.mp3</file>
+        <file>mp3/f.mp3</file>
+        <file>mp3/g.mp3</file>
+        <file>mp3/h.mp3</file>
+        <file>mp3/ir.mp3</file>
+        <file>mp3/i-sound.mp3</file>
+        <file>mp3/i-sound2.mp3</file>
+        <file>mp3/j.mp3</file>
+        <file>mp3/k.mp3</file>
+        <file>mp3/l.mp3</file>
+        <file>mp3/m.mp3</file>
+        <file>mp3/n.mp3</file>
+        <file>mp3/n3.mp3</file>
+        <file>mp3/ng.mp3</file>
+        <file>mp3/oi.mp3</file>
+        <file>mp3/o-sound.mp3</file>
+        <file>mp3/o-sound2.mp3</file>
+        <file>mp3/p.mp3</file>
+        <file>mp3/qq.mp3</file>
+        <file>mp3/r.mp3</file>
+        <file>mp3/s.mp3</file>
+        <file>mp3/si.mp3</file>
+        <file>mp3/ss.mp3</file>
+        <file>mp3/t.mp3</file>
+        <file>mp3/tr.mp3</file>
+        <file>mp3/ts.mp3</file>
+        <file>mp3/tss.mp3</file>
+        <file>mp3/uer.mp3</file>
+        <file>mp3/u-sound.mp3</file>
+        <file>mp3/u-sound2.mp3</file>
+        <file>mp3/v.mp3</file>
+        <file>mp3/w.mp3</file>
+        <file>mp3/z.mp3</file>
+        <file>MyWordBook.ico</file>
     </qresource>
 </RCC>
