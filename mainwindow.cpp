@@ -28,6 +28,97 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::init()
+{
+    m_file.setFileName(m_fileName);
+
+    m_translator = new Translator;
+
+    m_setAppidSecretKey = new setAppidSecretkey;
+    m_setAppidSecretKey->show();
+    connect(m_setAppidSecretKey, &setAppidSecretkey::sendMessage, this, &MainWindow::dealMessage);
+
+    m_showTranslators = new ShowTranslators();
+
+    m_hotKey = new QHotkey(QKeySequence(Qt::CTRL + Qt::Key_F9), true, this);
+    connect(m_hotKey, &QHotkey::activated, this, &MainWindow::handleHotkeyActivated);
+
+    m_queryWordWidget = new QueryWordsWidget(m_appid, m_secret_key);
+    m_addWord = new AddWord(m_fileName);
+    m_reciteWordsWidget = new ReciteWordsWidget;
+    m_wordListWidget = new WordListWidget;
+    m_learnIPA = new LearnIPA;
+
+    ui->stackedWidget->addWidget(m_queryWordWidget);
+    ui->stackedWidget->addWidget(m_addWord);
+    ui->stackedWidget->addWidget(m_reciteWordsWidget);
+    ui->stackedWidget->addWidget(m_wordListWidget);
+    ui->stackedWidget->addWidget(m_learnIPA);
+
+    ui->stackedWidget->setCurrentWidget(m_queryWordWidget);
+
+    connect(ui->toolButton_queryWords, &QToolButton::clicked, [=](){
+        ui->stackedWidget->setCurrentWidget(m_queryWordWidget);
+    });
+    connect(ui->toolButton_addWord, &QToolButton::clicked, [=](){
+        ui->stackedWidget->setCurrentWidget(m_addWord);
+    });
+    connect(ui->toolButton_reciteWords, &QToolButton::clicked, [=](){
+        ui->stackedWidget->setCurrentWidget(m_reciteWordsWidget);
+    });
+    connect(ui->toolButton_wordList, &QToolButton::clicked, [=](){
+        ui->stackedWidget->setCurrentWidget(m_wordListWidget);
+    });
+    connect(ui->toolButton_learnIPA, &QToolButton::clicked, [=](){
+        ui->stackedWidget->setCurrentWidget(m_learnIPA);
+    });
+
+    // 初始化容器
+    if(!m_file.open(QIODevice::ReadOnly))
+        QMessageBox::information(this, tr("提示"), tr("文件存放路径错误！"), QMessageBox::Ok);
+
+    QTextStream in(&m_file);
+    in.setCodec("UTF-8");   // 设置编码
+
+    bool isKey = true;
+    QString key;
+    QString value;
+
+    while (!in.atEnd())
+    {
+        if(isKey)
+        {
+            key = in.readLine();
+        }
+        else
+        {
+            value = in.readLine();
+            m_wordMap.insert(key, value);
+        }
+
+        isKey = !isKey;
+    }
+
+    m_file.close();
+
+    // 将容器发送给子对象
+    connect(this, &MainWindow::sendMap, m_addWord, &AddWord::recvMap);
+    connect(this, &MainWindow::sendMap, m_queryWordWidget, &QueryWordsWidget::recvMap);
+    connect(this, &MainWindow::sendMap, m_reciteWordsWidget, &ReciteWordsWidget::recvMap);
+    connect(this, &MainWindow::sendMap, m_wordListWidget, &WordListWidget::recvMap);
+    emit sendMap(m_wordMap);
+
+    connect(m_addWord, &AddWord::addWord, this, &MainWindow::dealAddWord);
+    connect(m_addWord, &AddWord::addWord, m_queryWordWidget, &QueryWordsWidget::dealAddWord);
+    connect(m_addWord, &AddWord::addWord, m_reciteWordsWidget, &ReciteWordsWidget::dealAddWord);
+    connect(m_addWord, &AddWord::addWord, m_wordListWidget, &WordListWidget::dealAddWord);
+
+    connect(m_addWord, &AddWord::delWord, this, &MainWindow::dealDelWord);
+    connect(m_addWord, &AddWord::delWord, m_queryWordWidget, &QueryWordsWidget::dealDelWord);
+    connect(m_addWord, &AddWord::delWord, m_reciteWordsWidget, &ReciteWordsWidget::dealDelWord);
+    connect(m_addWord, &AddWord::delWord, m_wordListWidget, &WordListWidget::dealDelWord);
+}
+
 QFile &MainWindow::getFile()
 {
     return m_file;
@@ -124,98 +215,6 @@ void MainWindow::dealMessage(string appid, string secret_key)
     m_secret_key = secret_key;
 }
 
-void MainWindow::init()
-{
-    m_file.setFileName(m_fileName);
-
-    m_translator = new Translator;
-
-    m_setAppidSecretKey = new setAppidSecretkey;
-    m_setAppidSecretKey->show();
-    connect(m_setAppidSecretKey, &setAppidSecretkey::sendMessage, this, &MainWindow::dealMessage);
-
-    m_showTranslators = new ShowTranslators();
-
-    m_hotKey = new QHotkey(QKeySequence(Qt::CTRL + Qt::Key_F9), true, this);
-    connect(m_hotKey, &QHotkey::activated, this, &MainWindow::handleHotkeyActivated);
-
-    m_queryWordWidget = new QueryWordsWidget(m_appid, m_secret_key);
-    m_addWord = new AddWord(m_fileName);
-    m_reciteWordsWidget = new ReciteWordsWidget;
-    m_wordListWidget = new WordListWidget;
-    m_learnIPA = new LearnIPA;
-
-    ui->stackedWidget->addWidget(m_queryWordWidget);
-    ui->stackedWidget->addWidget(m_addWord);
-    ui->stackedWidget->addWidget(m_reciteWordsWidget);
-    ui->stackedWidget->addWidget(m_wordListWidget);
-    ui->stackedWidget->addWidget(m_learnIPA);
-
-    ui->stackedWidget->setCurrentWidget(m_queryWordWidget);
-
-    connect(ui->toolButton_queryWords, &QToolButton::clicked, [=](){
-        ui->stackedWidget->setCurrentWidget(m_queryWordWidget);
-    });
-    connect(ui->toolButton_addWord, &QToolButton::clicked, [=](){
-        ui->stackedWidget->setCurrentWidget(m_addWord);
-    });
-    connect(ui->toolButton_reciteWords, &QToolButton::clicked, [=](){
-        ui->stackedWidget->setCurrentWidget(m_reciteWordsWidget);
-    });
-    connect(ui->toolButton_wordList, &QToolButton::clicked, [=](){
-        ui->stackedWidget->setCurrentWidget(m_wordListWidget);
-    });
-    connect(ui->toolButton_learnIPA, &QToolButton::clicked, [=](){
-//        ui->stackedWidget->setCurrentWidget(m_learnPhoneticAlphabet);
-        ui->stackedWidget->setCurrentWidget(m_learnIPA);
-    });
-
-    // 初始化容器
-    if(!m_file.open(QIODevice::ReadOnly))
-        QMessageBox::information(this, tr("提示"), tr("文件存放路径错误！"), QMessageBox::Ok);
-
-    QTextStream in(&m_file);
-    in.setCodec("UTF-8");   // 设置编码
-
-    bool isKey = true;
-    QString key;
-    QString value;
-
-    while (!in.atEnd())
-    {
-        if(isKey)
-        {
-            key = in.readLine();
-        }
-        else
-        {
-            value = in.readLine();
-            m_wordMap.insert(key, value);
-        }
-
-        isKey = !isKey;
-    }
-
-    m_file.close();
-
-    // 将容器发送给子对象
-    connect(this, &MainWindow::sendMap, m_addWord, &AddWord::recvMap);
-    connect(this, &MainWindow::sendMap, m_queryWordWidget, &QueryWordsWidget::recvMap);
-    connect(this, &MainWindow::sendMap, m_reciteWordsWidget, &ReciteWordsWidget::recvMap);
-    connect(this, &MainWindow::sendMap, m_wordListWidget, &WordListWidget::recvMap);
-    emit sendMap(m_wordMap);
-
-    connect(m_addWord, &AddWord::addWord, this, &MainWindow::dealAddWord);
-    connect(m_addWord, &AddWord::addWord, m_queryWordWidget, &QueryWordsWidget::dealAddWord);
-    connect(m_addWord, &AddWord::addWord, m_reciteWordsWidget, &ReciteWordsWidget::dealAddWord);
-    connect(m_addWord, &AddWord::addWord, m_wordListWidget, &WordListWidget::dealAddWord);
-
-    connect(m_addWord, &AddWord::delWord, this, &MainWindow::dealDelWord);
-    connect(m_addWord, &AddWord::delWord, m_queryWordWidget, &QueryWordsWidget::dealDelWord);
-    connect(m_addWord, &AddWord::delWord, m_reciteWordsWidget, &ReciteWordsWidget::dealDelWord);
-    connect(m_addWord, &AddWord::delWord, m_wordListWidget, &WordListWidget::dealDelWord);
-}
-
 void MainWindow::on_toolButton_setPath_clicked()
 {
     QString newFileName = QFileDialog::getOpenFileName(NULL, tr("选择文件"),"D:/","*.txt");
@@ -261,6 +260,15 @@ void MainWindow::handleHotkeyActivated()
 {
     int index;
     QString str = getClipboardText();   //获取剪切板上的文本
+    // 去掉剪切板中的'' '\n' '\t'
+    str.remove(QChar(' '), Qt::CaseInsensitive);
+    str.remove(QChar('\n'), Qt::CaseInsensitive);
+    str.remove(QChar('\t'), Qt::CaseInsensitive);
+    str.remove(QChar('~'), Qt::CaseInsensitive);
+    str.remove(QChar('-'), Qt::CaseInsensitive);
+    str.remove(QChar('_'), Qt::CaseInsensitive);
+    str.remove(QChar('='), Qt::CaseInsensitive);
+    str.remove(QChar('+'), Qt::CaseInsensitive);
     if(isChinese(str))
         index = 0;  // 输入的是中文，转换成英文
     else
