@@ -74,11 +74,25 @@ bool ReciteWordsWidget::eventFilter(QObject *watched, QEvent *event)
 
 void ReciteWordsWidget::on_pushButton_next_clicked()
 {
+    // 默认是随机背诵
     if(m_wordVector.isEmpty())
         return;
     ui->plainTextEdit_translate->clear();
     int count = m_wordVector.size();
-    int num = rand() % count;
+    int num;
+    if (m_isReciteRand)
+        num = rand() % count;
+    else if (m_isReciteASC)
+    {
+        if (curNum == count)
+        {
+            curNum = 0;
+            num = curNum;
+        }
+        else
+            num = ++curNum;
+//        qDebug() << num;
+    }
     QString key = m_wordVector[num];
     ui->plainTextEdit_word->setPlainText(key);
 
@@ -88,11 +102,24 @@ void ReciteWordsWidget::on_pushButton_next_clicked()
 
 void ReciteWordsWidget::on_pushButton_last_clicked()
 {
+    // 默认是随机背诵
     if(m_wordVector.isEmpty())
         return;
     ui->plainTextEdit_translate->clear();
     int count = m_wordVector.size();
-    int num = rand() % count;
+    int num;
+    if (m_isReciteRand)
+        num = rand() % count;
+    else if (m_isReciteASC)
+    {
+        if (curNum == 0)
+        {
+            curNum = count;
+            num = curNum;
+        }
+        else
+            num = --curNum;
+    }
     QString key = m_wordVector[num];
     ui->plainTextEdit_word->setPlainText(key);
 
@@ -145,4 +172,29 @@ void ReciteWordsWidget::on_pushButton_hidden_clicked()
 
     ui->pushButton_look->setEnabled(true);
     ui->pushButton_hidden->setEnabled(false);
+}
+
+// 顺序背诵
+void ReciteWordsWidget::on_pushButton_reciteASC_clicked()
+{
+    m_isReciteASC = true;
+    m_isReciteRand = false;
+    ui->plainTextEdit_word->clear();
+    ui->plainTextEdit_translate->clear();
+    ui->plainTextEdit_word->setPlainText(m_wordVector[0]);
+    ui->pushButton_hidden->setEnabled(false);
+    ui->pushButton_look->setEnabled(true);
+}
+
+// 随机背诵
+void ReciteWordsWidget::on_pushButton_reciteRand_clicked()
+{
+    m_isReciteRand = true;
+    m_isReciteASC = false;
+    ui->plainTextEdit_word->clear();
+    ui->plainTextEdit_translate->clear();
+    int count = m_wordVector.size();
+    ui->plainTextEdit_word->setPlainText(m_wordVector[rand() % count]);
+    ui->pushButton_hidden->setEnabled(false);
+    ui->pushButton_look->setEnabled(true);
 }

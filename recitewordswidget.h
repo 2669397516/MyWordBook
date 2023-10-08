@@ -29,13 +29,17 @@ private slots:
     void on_pushButton_last_clicked();
     void on_pushButton_look_clicked();
     void on_pushButton_ok_clicked();
-
     void on_pushButton_hidden_clicked();
+    void on_pushButton_reciteASC_clicked();
+    void on_pushButton_reciteRand_clicked();
 
 private:
     Ui::ReciteWordsWidget *ui;
     QMap<QString, QString> m_wordMap;
     QVector<QString> m_wordVector;
+    bool m_isReciteASC = false;
+    bool m_isReciteRand = true;
+    int curNum;
 };
 
 #endif // RECITEWORDSWIDGET_H
