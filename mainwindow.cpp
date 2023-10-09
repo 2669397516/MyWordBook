@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("我的单词本"));
-    this->setWindowIcon(QIcon(":/MyWordBook.ico"));
+    this->setWindowIcon(QIcon(":/WordBook.ico"));
 
     init();
 }

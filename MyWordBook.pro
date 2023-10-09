@@ -1,7 +1,7 @@
 QT       += core gui network multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = MyWordBook
+TARGET = WordBook   # 设置生成可执行文件的名称
 
 TEMPLATE = app
 
@@ -61,4 +61,6 @@ SOURCES += \
 include(QHotKey/qhotkey.pri)
 
 RC_FILE += logo.rc
+
+DISTFILES +=
 

@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
     MainWindow m;
     m.show();
 
-    QIcon icon(":/MyWordBook.ico");
+    QIcon icon(":/WordBook.ico");
     a.setWindowIcon(icon);
 
     // 创建托盘图标
     QSystemTrayIcon trayIcon;
-    trayIcon.setIcon(QIcon(":/MyWordBook.ico"));  // 设置托盘图标
+    trayIcon.setIcon(QIcon(":/WordBook.ico"));  // 设置托盘图标
 
     // 创建菜单
     QMenu* trayMenu = new QMenu();

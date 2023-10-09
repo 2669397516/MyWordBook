@@ -54,6 +54,12 @@ void ShowTranslators::mouseReleaseEvent(QMouseEvent *event)
     m_isPressed = false;
 }
 
+void ShowTranslators::closeEvent(QCloseEvent *event)
+{
+    this->hide();
+    event->ignore();
+}
+
 void ShowTranslators::on_pushButton_close_clicked()
 {
     this->close();
