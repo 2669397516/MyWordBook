@@ -44,6 +44,9 @@ public slots:
 signals:
     void sendMap(QMap<QString, QString> wordMap);
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private slots:
     void on_toolButton_setPath_clicked();
     void handleHotkeyActivated();

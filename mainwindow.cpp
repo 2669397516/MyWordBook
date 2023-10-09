@@ -215,6 +215,12 @@ void MainWindow::dealMessage(string appid, string secret_key)
     m_secret_key = secret_key;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    this->hide();
+    event->ignore();    // 必须忽略，不然窗口会被销毁
+}
+
 void MainWindow::on_toolButton_setPath_clicked()
 {
     QString newFileName = QFileDialog::getOpenFileName(NULL, tr("选择文件"),"D:/","*.txt");
