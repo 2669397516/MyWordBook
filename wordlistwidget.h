@@ -21,6 +21,9 @@ public slots:
     void dealAddWord(QPair<QString, QString> addWord);
     void dealDelWord(QPair<QString, QString> delWord);
 
+private slots:
+    void on_pushButton_refresh_clicked();
+
 private:
     void showWordList();
 

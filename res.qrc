@@ -55,5 +55,6 @@
         <file>mp3/w.mp3</file>
         <file>mp3/z.mp3</file>
         <file>WordBook.ico</file>
+        <file>images/刷新.svg</file>
     </qresource>
 </RCC>

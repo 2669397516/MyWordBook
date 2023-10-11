@@ -54,3 +54,8 @@ void WordListWidget::showWordList()
 
     ui->plainTextEdit_show->verticalScrollBar()->setValue(0);   // 设置文本从最上方开始
 }
+
+void WordListWidget::on_pushButton_refresh_clicked()
+{
+    showWordList();
+}
